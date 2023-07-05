@@ -5,6 +5,8 @@ on:
     branches:
       - master
 #  pull_request:
+  schedule:
+    - cron: "0 6 */2 * *"
   workflow_dispatch:
     inputs:
       update-version-number:
@@ -113,7 +115,7 @@ jobs:
       - name: Generate release tag
         id: tag
         run: |
-          echo "release_tag=${{needs.get-version.outputs.CUR_VERSION}}" >> $GITHUB_OUTPUT
+          echo "release_tag=smartdns-${{needs.get-version.outputs.CUR_VERSION}}" >> $GITHUB_OUTPUT
           touch release.txt
           echo "同步更新上游代码" >> release.txt
           echo ${{ github.sha }} >> Release.txt
@@ -159,7 +161,7 @@ jobs:
       - name: Generate release tag
         id: tag
         run: |
-          echo "release_tag=${{needs.get-version.outputs.CUR_VERSION}}" >> $GITHUB_OUTPUT
+          echo "release_tag=smartdns-${{needs.get-version.outputs.CUR_VERSION}}" >> $GITHUB_OUTPUT
           touch release.txt
           echo "同步更新上游代码" >> release.txt
           echo ${{ github.sha }} >> Release.txt
