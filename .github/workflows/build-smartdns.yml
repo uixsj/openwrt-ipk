@@ -386,13 +386,14 @@ grep "PREFEX" | sed 's/PREFEX=\(.*\)/\1/')
           pre_version=$(cat smartdns/VERSION | grep "PREFEX" | sed 's/PREFEX=\(.*\)/\1/')
           cur_version=$(cat smartdns/VERSION | grep "CUR_VERS" | sed 's/CUR_VERS=\(.*\)/\1/')
           cur_version=$(($cur_version + 1))
+	  	
           sed -i "s/CUR_VERS=.*/CUR_VERS=$cur_version/" smartdns/VERSION
-		  if [[ $(git status --porcelain) ]]; then
-			  git config --local user.email "fake@mail.com"
-			  git config --local user.name "Jarvis"
-			  git add smartdns/VERSION
-			  git commit -m "generate new post from github action" -a
-			  git push origin main
-		  else
-			  echo "No changes to commit."
-		  fi
+          if [[ $(git status --porcelain) ]]; then
+	  	git config --local user.email "fake@mail.com"
+	  	git config --local user.name "Jarvis"
+	  	git add smartdns/VERSION
+	  	git commit -m "generate new post from github action" -a
+	  	git push origin main
+          else
+	  	echo "No changes to commit."
+          fi
