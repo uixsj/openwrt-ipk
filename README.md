@@ -2,9 +2,9 @@
 
 ## 支持项目：
 
-Passwall (smartdns版本)：[https://github.com/xiaorouji/openwrt-passwall](https://github.com/xiaorouji/openwrt-passwall)
+Passwall (smartdns版本) x86_64：[https://github.com/xiaorouji/openwrt-passwall](https://github.com/xiaorouji/openwrt-passwall)
 
-SmartDNS：[https://github.com/pymumu/smartdns](https://github.com/pymumu/smartdns)
+SmartDNS 各版本：[https://github.com/pymumu/smartdns](https://github.com/pymumu/smartdns)
 
 ## 仓库说明：
 
