@@ -180,7 +180,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-	
     - name: update version
       run: |
           #更新当前版本号
