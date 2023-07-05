@@ -1,0 +1,49 @@
+name: Sync Latest Code
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        sparse-checkout: |
+          /*
+          !/README.md
+          !/.github/
+          !/README_en.md
+      
+    - name: Set Git config
+      run: |
+          git config user.name "Jarvis"
+          git config user.email "you@example.com"
+    - name: Update repositories
+      run: |
+        mkdir tmp
+        if [ ! -d "openwrt-passwall" ]; then
+            git clone https://github.com/xiaorouji/openwrt-passwall.git openwrt-passwall
+        else
+            cd openwrt-passwall
+            git pull
+            cd "$GITHUB_WORKSPACE/"
+        fi
+        
+        git clone --depth 1 --branch luci-smartdns-new-version https://github.com/xiaorouji/openwrt-passwall.git tmp/luci-app-passwall
+        rsync -av --checksum tmp/luci-app-passwall/luci-app-passwall/ "luci-app-passwall"
+        rm -rf tmp
+    - name: Commit changes
+      run: |
+        cd "$GITHUB_WORKSPACE/"
+        if [[ $(git status --porcelain) ]]; then
+          git add .
+          git commit -m "Sync with external repositories"
+          git push origin main
+        else
+          echo "No changes to commit."
+        fi
