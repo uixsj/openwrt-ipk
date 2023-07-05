@@ -27,7 +27,10 @@ jobs:
       run: |
         mkdir tmp
         if [ ! -d "openwrt-passwall" ]; then
-            git clone https://github.com/xiaorouji/openwrt-passwall.git openwrt-passwall
+            git clone https://github.com/xiaorouji/openwrt-passwall.git tmp/openwrt-passwall
+            rm -rf tmp/openwrt-passwall/.git
+            rm -rf tmp/openwrt-passwall/.github
+            rsync -av --checksum tmp/openwrt-passwall/ "openwrt-passwall"
         else
             cd openwrt-passwall
             git pull
