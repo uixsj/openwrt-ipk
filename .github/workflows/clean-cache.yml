@@ -14,12 +14,12 @@ jobs:
       uses: MyAlbum/purge-cache@v1
       with:
         max-age: 1
-        token: ${{ secrets.TOKEN }}
+        token: ${{ secrets.workflow_token }}
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
-        token: ${{ secrets.TOKEN }}
+        token: ${{ secrets.workflow_token }}
         repository: ${{ github.repository }}
         retain_days: 7
         keep_minimum_runs: 7
