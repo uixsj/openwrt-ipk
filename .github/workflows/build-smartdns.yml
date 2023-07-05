@@ -100,9 +100,9 @@ jobs:
           EOF
 
           if [ "$GOARCH" == "armv7l" ] ;then
-            docker run -i --rm -v ${{ github.workspace }}:/workdir/smartdns muslcc/x86_64:armv7l-linux-musleabihf pwd ls sh ${{ github.workspace }}/smartdns/docker-build.sh
+            docker run -i --rm -v ${{ github.workspace }}/smartdns:/workdir muslcc/x86_64:armv7l-linux-musleabihf sh /workdir/docker-build.sh
           else
-            docker run -i --rm -v ${{ github.workspace }}:/workdir/smartdns muslcc/x86_64:$GOARCH-linux-musl pwd ls sh ${{ github.workspace }}/smartdns/docker-build.sh
+            docker run -i --rm -v ${{ github.workspace }}/smartdns:/workdir muslcc/x86_64:$GOARCH-linux-musl sh /workdir/docker-build.sh
           fi
 
 #      - name: Upload To Artifact
