@@ -1,8 +1,8 @@
 name: Build alist
 
 on:
-#  schedule:
-#    - cron: "0 6 */2 * *"
+  schedule:
+    - cron: "0 6 */3 * *"
   push:
     branches:
       - 'main'
