@@ -1,6 +1,9 @@
 name: Build mosdns
 
 on:
+  schedule:
+    - cron: "0 6 */2 * *"
+  workflow_dispatch:
   push:
     tags:
       - v5.**
