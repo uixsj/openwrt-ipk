@@ -6,6 +6,8 @@ Alist: [https://github.com/sbwml/luci-app-mosdns](https://github.com/sbwml/luci-
 
 Passwall x86_64：[https://github.com/xiaorouji/openwrt-passwall](https://github.com/xiaorouji/openwrt-passwall)
 
+Passwall2 x86_64：[https://github.com/xiaorouji/openwrt-passwall2](https://github.com/xiaorouji/openwrt-passwall2)
+
 Passwall-SmartDNS (passwall适配smartdns的版本) x86_64：[https://github.com/xiaorouji/openwrt-passwall](https://github.com/xiaorouji/openwrt-passwall)
 
 SmartDNS：[https://github.com/pymumu/smartdns](https://github.com/pymumu/smartdns)
