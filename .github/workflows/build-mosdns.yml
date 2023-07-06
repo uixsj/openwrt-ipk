@@ -66,21 +66,28 @@ jobs:
         with:
           name: mosdns-${{ matrix.arch }}
           path: bin/packages/${{ matrix.arch }}/packages_ci/*.ipk
+          
+      - name: Get version from file name
+        id: extract_version
+        run: |
+          filename=$(find bin/packages/x86_64/packages_ci -name 'mosdns_*.ipk' -print -quit)
+          version=$(echo "$filename" | awk -F'[_|-]' '{print $2}')
+          echo "::set-output name=version::$version"
 
       - name: Upload packages
         uses: ncipollo/release-action@v1
         with:
-          name: "mosdns-${{ matrix.arch }}"
+          name: "mosdns-${{ steps.extract_version.outputs.version }}"
           token: ${{ secrets.workflow_token }}
           allowUpdates: true
           replacesArtifacts: true
-          tag: "mosdns-${{ matrix.arch }}"
+          tag: "mosdns-${{ steps.extract_version.outputs.version }}"
           body: |
             luci-app-mosdns for OpemWrt.
           artifacts: "bin/packages/${{ matrix.arch }}/packages_ci/*.ipk"
 
       - name: TG
-        run: curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=❤️恭喜主人mosdns-${{ matrix.arch }}.ipk编译完成！%0A编译时间：$(TZ='Asia/Shanghai' date +%Y年%m月%d日 %H:%M:%S)%0A下载地址：https://github.com/uixsj/openwrt-ipk/releases/tag/mosdns-${{ matrix.arch }}"
+        run: curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=❤️恭喜主人mosdns-${{ steps.extract_version.outputs.version }}.ipk编译完成！%0A编译时间：$(TZ='Asia/Shanghai' date +%Y年%m月%d日 %H:%M:%S)%0A下载地址：https://github.com/uixsj/openwrt-ipk/releases/tag/mosdns-${{ steps.extract_version.outputs.version }}"
 
       - name: Old workflow
         uses: FunctionXJB/delete-workflow-runs@main
