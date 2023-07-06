@@ -3,9 +3,6 @@ name: Build mosdns
 on:
   schedule:
     - cron: "0 6 */2 * *"
-  push:
-    paths:
-      - 'mosdns/**'
   workflow_dispatch:
 
 jobs:
