@@ -2,9 +2,8 @@ name: Build smartdns
 
 on:
   push:
-    branches:
-      - master
-#  pull_request:
+    paths:
+      - 'smartdns/**'
   schedule:
     - cron: "0 6 */2 * *"
   workflow_dispatch:
