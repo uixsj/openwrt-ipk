@@ -70,8 +70,8 @@ jobs:
       - name: Get version from file name
         id: extract_version
         run: |
-          filename=$(find bin/packages/${{ matrix.arch }}/packages_ci -name 'mosdns_*.ipk' -print -quit)
-          version=$(echo "$filename" | awk -F'[_|-]' '{print $2}')
+          filename=$(basename $(find bin/packages/${{ matrix.arch }}/packages_ci -name 'mosdns_*.ipk'))
+          version=$(echo "$filename" | awk -F '_' '{print $2}')
           echo "::set-output name=version::$version"
 
       - name: Upload packages
