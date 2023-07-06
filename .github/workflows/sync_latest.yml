@@ -40,6 +40,9 @@ jobs:
         git clone --depth 1 --branch luci https://github.com/xiaorouji/openwrt-passwall.git tmp/luci-app-passwall
         rsync -av --checksum tmp/luci-app-passwall/luci-app-passwall/ "luci-app-passwall"
       
+        git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2.git tmp/luci-app-passwall2
+        rsync -av --checksum tmp/luci-app-passwall2/luci-app-passwall2/ "luci-app-passwall2"
+      
         git clone https://github.com/pymumu/smartdns.git tmp/smartdns
         rm -rf tmp/smartdns/.git
         rm -rf tmp/smartdns/.github
