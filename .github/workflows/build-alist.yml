@@ -1,0 +1,108 @@
+name: Build alist
+
+on:
+  schedule:
+    - cron: "0 6 */2 * *"
+  push:
+    tags:
+      - v3.**
+
+jobs:
+  build:
+    name: Build ${{ matrix.arch }}-${{ matrix.sdk }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - aarch64_cortex-a53
+          - aarch64_cortex-a72
+          - aarch64_generic
+          - arm_arm1176jzf-s_vfp
+          - arm_arm926ej-s
+          - arm_cortex-a15_neon-vfpv4
+          - arm_cortex-a5_vfpv4
+          - arm_cortex-a7
+          - arm_cortex-a7_neon-vfpv4
+          - arm_cortex-a8_vfpv3
+          - arm_cortex-a9
+          - arm_cortex-a9_neon
+          - arm_cortex-a9_vfpv3-d16
+          - arm_fa526
+          - arm_mpcore
+          - arm_xscale
+          - i386_pentium-mmx
+          - i386_pentium4
+          - mips64_octeonplus
+          - mips_24kc
+          - mips_4kec
+          - mips_mips32
+          - mipsel_24kc
+          - mipsel_24kc_24kf
+          - mipsel_74kc
+          - mipsel_mips32
+          - x86_64
+        sdk:
+          - openwrt-22.03
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Build
+        uses: sbwml/openwrt-gh-action-sdk@go1.20
+        env:
+          ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
+          FEEDNAME: packages_ci
+          PACKAGES: luci-app-alist
+          NO_REFRESH_CHECK: true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: alist-${{ matrix.arch }}-${{ matrix.sdk }}
+          path: bin/packages/${{ matrix.arch }}/packages_ci/*.ipk
+          
+      - name: Get version from file name
+        id: extract_version
+        run: |
+          filename=$(basename $(find bin/packages/${{ matrix.arch }}/packages_ci -name 'alist_*.ipk'))
+          version=v$(echo "$filename" | awk -F '_' '{print $2}')
+          echo "::set-output name=version::$version"
+
+      - name: Create compress files
+        run: |
+          tar -zcvf alist-${{ steps.extract_version.outputs.version }}-${{ matrix.arch }}.tar.gz -C bin/packages/${{ matrix.arch }}/ packages_ci/*
+
+      - name: Upload packages
+        uses: ncipollo/release-action@v1
+        with:
+          name: alist-${{ steps.extract_version.outputs.version }}
+          token: ${{ secrets.workflow_token }}
+          allowUpdates: true
+          replacesArtifacts: true
+          tag: "alist-${{ steps.extract_version.outputs.version }}"
+          body: |
+            luci-app-alist for OpemWrt 22.03.
+            下载对应系统架构的压缩包，上传到openwrt的/tmp目录并解压
+            运行 opkg install /tmp/*alist*.ipk 安装
+          artifacts: "alist-${{ steps.extract_version.outputs.version }}-${{ matrix.arch }}.tar.gz"
+          
+      - name: TG
+        run: curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=❤️恭喜主人alist-${{ steps.extract_version.outputs.version }}编译完成！%0A编译时间：$(TZ='Asia/Shanghai' date +%Y年%m月%d日 %H:%M:%S)%0A下载地址：https://github.com/uixsj/openwrt-ipk/releases/tag/alist-${{ steps.extract_version.outputs.version }}"
+
+      - name: Old workflow
+        uses: FunctionXJB/delete-workflow-runs@main
+        with:
+          retain_days: 180
+          keep_minimum_runs: 10
+
+      - name: Old Releases
+        uses: dev-drprasad/delete-older-releases@v0.2.1
+        if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+        with:
+          keep_latest: 20
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.workflow_token }}
