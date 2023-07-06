@@ -74,7 +74,7 @@ jobs:
 
       - name: Create compress files
         run: |
-          tar -zcvf alist-${{ steps.extract_version.outputs.version }}-${{ matrix.arch }}.tar.gz -C bin/packages/${{ matrix.arch }}/ packages_ci/*
+          tar -zcvf alist-${{ steps.extract_version.outputs.version }}-${{ matrix.arch }}.tar.gz -C bin/packages/${{ matrix.arch }}/ packages_ci
 
       - name: Upload packages
         uses: ncipollo/release-action@v1
@@ -87,7 +87,7 @@ jobs:
           body: |
             luci-app-alist for OpemWrt 22.03.
             下载对应系统架构的压缩包，上传到openwrt的/tmp目录并解压
-            运行 opkg install /tmp/*alist*.ipk 安装
+            运行 opkg install /tmp/packages_ci/*alist*.ipk 安装
           artifacts: "alist-${{ steps.extract_version.outputs.version }}-${{ matrix.arch }}.tar.gz"
           
       - name: TG
