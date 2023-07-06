@@ -3,9 +3,6 @@ name: Build alist
 on:
   schedule:
     - cron: "0 6 */2 * *"
-  push:
-    paths:
-      - 'alist/**'
   workflow_dispatch:
 
 jobs:
