@@ -46,9 +46,9 @@ jobs:
         rsync -av --checksum tmp/smartdns/ "smartdns"
         
         git clone --branch v5 https://github.com/sbwml/luci-app-mosdns.git tmp/luci-app-mosdns
-        rsync -av --checksum tmp/luci-app-mosdns/ "luci-app-mosdns"
-        rsync -av --checksum tmp/mosdns/ "mosdns"
-        rsync -av --checksum tmp/v2dat/ "v2dat"
+        rsync -av --checksum tmp/luci-app-mosdns/luci-app-mosdns/ "luci-app-mosdns"
+        rsync -av --checksum tmp/luci-app-mosdns/mosdns/ "mosdns"
+        rsync -av --checksum tmp/luci-app-mosdns/v2dat/ "v2dat"
         
         rm -rf tmp
     - name: Commit changes
