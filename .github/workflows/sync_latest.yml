@@ -56,6 +56,11 @@ jobs:
         git clone https://github.com/sbwml/luci-app-alist.git tmp/luci-app-alist
         rsync -av --checksum tmp/luci-app-alist/luci-app-alist/ "luci-app-alist"
         rsync -av --checksum tmp/luci-app-alist/alist/ "alist"
+  
+        git clone --depth 1 --branch master https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git tmp/luci-app-unblockneteasemusic
+        rm -rf tmp/luci-app-unblockneteasemusic/.git
+        rm -rf tmp/luci-app-unblockneteasemusic/.github
+        rsync -av --checksum tmp/luci-app-unblockneteasemusic/ "luci-app-unblockneteasemusic"
         
         rm -rf tmp
     - name: Commit changes
