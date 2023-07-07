@@ -17,8 +17,8 @@ jobs:
         env:
           RELEASE_TYPE: 'release'
         run: |
-          pushd .github
-          fakeroot bash sh/build-unblockneteasemusic.sh
+          pushd .github/sh
+          fakeroot bash build-unblockneteasemusic.sh
           echo "ASSET_NAME=$(ls *.ipk)" >> $GITHUB_ENV
           popd
 
