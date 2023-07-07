@@ -6,7 +6,7 @@
 export PKG_SOURCE_DATE_EPOCH="$(date "+%s")"
 
 BASE_DIR="$(cd "$(dirname $0)"; pwd)"
-PKG_DIR="$BASE_DIR/../luci-app-unblockneteasemusic"
+PKG_DIR="$BASE_DIR/../../luci-app-unblockneteasemusic"
 
 function get_mk_value() {
 	awk -F "$1:=" '{print $2}' "$PKG_DIR/Makefile" | xargs
