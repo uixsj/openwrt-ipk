@@ -89,6 +89,7 @@ jobs:
           artifacts: "bin/packages/${{ matrix.arch }}/packages_ci/*.ipk"
 
       - name: TG
+        if: matrix.arch == 'x86_64'
         run: curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=❤️恭喜主人mosdns-${{ steps.extract_version.outputs.version }}.ipk编译完成！%0A编译时间：$(TZ='Asia/Shanghai' date +%Y年%m月%d日 %H:%M:%S)%0A下载地址：https://github.com/uixsj/openwrt-ipk/releases/tag/mosdns-${{ steps.extract_version.outputs.version }}"
 
       - name: Old workflow
