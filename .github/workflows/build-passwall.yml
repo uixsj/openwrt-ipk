@@ -18,7 +18,10 @@ jobs:
       fail-fast: false
       matrix:
         arch:
+          - aarch64_generic
           - x86_64
+        tag:
+          - openwrt-22.03
 
     steps:
       - uses: actions/checkout@v3
@@ -28,10 +31,11 @@ jobs:
       - name: Build
         uses: sbwml/openwrt-gh-action-sdk@helloworld
         env:
-          ARCH: ${{ matrix.arch }}-openwrt-22.03
+          ARCH: ${{ matrix.arch }}-${{ matrix.tag }}
           FEEDNAME: packages_ci
           PACKAGES:  luci-app-passwall luci-app-passwall-smartdns chinadns-ng xray-plugin
           NO_REFRESH_CHECK: true
+          IGNORE_ERRORS: true
       - name: Time Work
         run:
           echo "TAG_TIME=$(date +"%Y%m%d")" >> $GITHUB_ENV
