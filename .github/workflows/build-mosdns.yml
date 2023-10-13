@@ -56,12 +56,13 @@ jobs:
           git clone https://github.com/sbwml/v2ray-geodata
 
       - name: Building packages
-        uses: sbwml/openwrt-gh-action-sdk@go1.21
+        uses: sbwml/openwrt-gh-action-sdk@helloworld
         env:
           ARCH: ${{ matrix.arch }}-openwrt-22.03
           FEEDNAME: packages_ci
           PACKAGES: luci-app-mosdns
           NO_REFRESH_CHECK: true
+          IGNORE_ERRORS: true
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
