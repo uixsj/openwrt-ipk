@@ -2403,9 +2403,6 @@ out:
 	context.do_audit = 1;
 	context.do_reply = 1;
 	context.reply_ttl = _dns_server_get_reply_ttl(request, ttl);
-	if (with_all_ips == 0) {
-		context.cache_ttl = _dns_server_get_reply_ttl(request, ttl);
-	}
 	context.skip_notify_count = 1;
 	context.select_all_best_ip = with_all_ips;
 	context.no_release_parent = 1;
