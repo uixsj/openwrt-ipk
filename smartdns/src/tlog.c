@@ -1222,6 +1222,11 @@ static int _tlog_write_screen(struct tlog_log *log, struct tlog_loginfo *info, c
         return 0;
     }
 
+    if (info == NULL) {
+        
+        return write(STDOUT_FILENO, buff, bufflen);;
+    }
+
     return tlog_stdout_with_color(info->level, buff, bufflen);
 }
 
@@ -1569,7 +1574,6 @@ static int _tlog_root_write_screen_log(struct tlog_log *log, struct tlog_loginfo
     if (log->logscreen == 0) {
         return 0;
     }
-
 
     return _tlog_write_screen(log, info, buff, bufflen);
 }
