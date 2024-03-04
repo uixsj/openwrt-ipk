@@ -2623,7 +2623,7 @@ static int _dns_server_request_complete_with_all_IPs(struct dns_request *request
 				 request->ip_addr[13], request->ip_addr[14], request->ip_addr[15]);
 		}
 
-		if (request->rcode != DNS_RC_NOERROR) {
+		if (request->rcode == DNS_RC_SERVFAIL && request->has_ip) {
 			request->rcode = DNS_RC_NOERROR;
 		}
 	}
