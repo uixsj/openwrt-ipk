@@ -3969,7 +3969,6 @@ static int _dns_client_send_packet(struct dns_query_struct *query, void *packet,
 				time(&now);
 				if (now - 10 > server_info->last_recv || send_err != ENOMEM) {
 					server_info->prohibit = 1;
-					tlog(TLOG_ERROR, "prohibit server %s", server_info->ip);
 				}
 
 				atomic_dec(&query->dns_request_sent);
