@@ -129,8 +129,11 @@ int _ssl_do_handevent(struct dns_server_info *server)
 		pthread_mutex_unlock(&server->lock);
 		return SSL_ERROR_SYSCALL;
 	}
-
+#ifdef OSSL_QUIC1_VERSION
 	err = SSL_handle_events(server->ssl);
+#else
+	err = SSL_ERROR_SYSCALL;
+#endif
 	pthread_mutex_unlock(&server->lock);
 	return err;
 }
